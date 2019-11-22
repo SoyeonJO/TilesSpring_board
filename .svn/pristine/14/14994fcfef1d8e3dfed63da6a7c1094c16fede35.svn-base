@@ -1,0 +1,43 @@
+package kr.or.ddit.admin.mypage.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.admin.mypage.dao.IAdminMypageDao;
+import kr.or.ddit.admin.mypage.dao.IAdminMypageDaoImpl;
+import kr.or.ddit.vo.MemberVO;
+
+public class IAdminMypageServiceImpl implements IAdminMypageService {
+
+	private IAdminMypageDao dao;
+	private IAdminMypageServiceImpl() {
+		dao = IAdminMypageDaoImpl.getInstance();
+	}
+	
+	private static IAdminMypageService service;
+	public static IAdminMypageService getInstance() {
+		return (service == null) ? new IAdminMypageServiceImpl() : service;
+	}
+	
+	@Override
+	public List<MemberVO> memberList(Map<String, String> params) {
+		List<MemberVO> list = null;
+		try {
+			list = dao.memberList(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void memberDelete(MemberVO membervo) {
+		try {
+			dao.memberDelete(membervo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

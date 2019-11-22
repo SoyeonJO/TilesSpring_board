@@ -1,0 +1,49 @@
+<%@page import="java.io.BufferedOutputStream"%>
+<%@page import="java.io.FileInputStream"%>
+<%@page import="java.io.BufferedInputStream"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="kr.or.ddit.global.GlobalConstant"%>
+<%@page import="java.io.File"%>
+<%@page import="kr.or.ddit.vo.NewsItemVO"%>
+<%@page import="kr.or.ddit.user.newsitem.service.INewsItemServiceImpl"%>
+<%@page import="kr.or.ddit.user.newsitem.service.INewsItemService"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%--
+	 String newsFileSEQ = request.getParameter("newsFileSEQ");
+
+	Map<String, String> params = new HashMap<String, String>();
+	params.put("newsFileSEQ", newsFileSEQ);
+	
+	INewsItemService service = INewsItemServiceImpl.getInstance();
+	NewsItemVO newsItemInfo = service.newsItemInfo(params);
+	
+	File downloadFile = new File(GlobalConstant.FILE_PATH, newsItemInfo.getFi_news_save_name());
+	
+	if(downloadFile.exists()){
+		String fileName = URLEncoder.encode(newsItemInfo.getFi_news_name(), "UTF-8");
+		
+		response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+		response.setContentType("application/octet-stream");
+		response.setContentLength((int)downloadFile.length());
+		
+		out.clear();
+		out = pageContext.popBody();
+		
+		byte[] buffer = new byte[(int)downloadFile.length()];
+		
+		BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(downloadFile));
+		
+		BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+		
+		int readCNT = 0;
+		
+		while((readCNT = inputStream.read(buffer)) != -1){
+			outputStream.write(buffer);
+		}
+		inputStream.close();
+		outputStream.close();
+	} 
+--%>    

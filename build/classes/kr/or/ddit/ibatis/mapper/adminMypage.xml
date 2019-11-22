@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="adminmypage">
+	<typeAlias alias="memberVO" type="kr.or.ddit.vo.MemberVO" />
+	<typeAlias alias="wdVO" type="kr.or.ddit.vo.WithdrawVO"/>	
+	
+	<sql id="searchMember">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				   MEM_NAME  LIKE '%'||#search_keyword#||'%'
+				OR MEM_NICK  LIKE '%'||#search_keyword#||'%'
+				OR MEM_ID    LIKE '%'||#search_keyword#||'%'
+				OR MEM_ADDR1 LIKE '%'||#search_keyword#||'%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	<sql id="searchDelMember">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				   QUIT_MEM_NAME LIKE '%'||#search_keyword#||'%'
+				OR QUIT_MEM_MSG  LIKE '%'||#search_keyword#||'%'
+				OR QUIT_MEM_STAR LIKE '%'||#search_keyword#||'%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<sql id="memberSelectAll">
+		SELECT *
+		  FROM MEMBER
+		 WHERE MEM_STATUS = 'y' 
+	</sql>
+	
+	<sql id="memDelSelectAll">
+		SELECT *
+		  FROM WITHDRAW 
+	</sql>
+	
+	<sql id="AllMember">
+		SELECT *
+		FROM MEMBER
+	</sql>
+	
+	<select id="countInsertDate" parameterClass="string" resultClass="string">
+		SELECT count(*) 
+  		  FROM MEMBER
+ 		 WHERE SUBSTR(MEM_REG_DATE, 6,2) = #selectdate#
+	</select>
+	
+	<select id="memberList" parameterClass="map" resultClass="memberVO">
+		SELECT B.*
+  		  FROM (SELECT ROWNUM RNUM, A.*
+          	  	  FROM (<include refid="memberSelectAll"/>
+                   		   <include refid="searchMember"/>
+                  		 ORDER BY MEM_ID) A ) B
+         <![CDATA[         		 
+ 	     WHERE B.RNUM <= #startCount#
+           AND B.RNUM >= #endCount#
+         ]]>  
+ 	     ORDER BY B.RNUM
+	</select>
+
+	<select id="memberListDel" parameterClass="map" resultClass="wdVO">
+		SELECT B.*
+  		  FROM (SELECT ROWNUM RNUM, A.*
+          	  	  FROM (<include refid="memDelSelectAll"/>
+                   		   <include refid="searchDelMember"/>
+                  		 ORDER BY QUIT_MEM_ID) A ) B
+         <![CDATA[         		 
+ 	     WHERE B.RNUM <= #startCount#
+           AND B.RNUM >= #endCount#
+         ]]>  
+ 	     ORDER BY B.RNUM
+	</select>
+	
+	<select id="totalCountMember" parameterClass="map" resultClass="string">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE MEM_STATUS = 'y' 
+	</select>
+
+	<select id="totalCountMemberDel" parameterClass="map" resultClass="string">
+		SELECT COUNT(*)
+		  FROM WITHDRAW
+	</select>
+	
+
+	<select id="countStar" parameterClass="string" resultClass="string">
+		SELECT COUNT(*)
+  		  FROM WITHDRAW
+   	 	 WHERE QUIT_MEM_STAR = #quit_mem_star# 
+	</select>
+
+	
+
+
+</sqlMap>    
+    

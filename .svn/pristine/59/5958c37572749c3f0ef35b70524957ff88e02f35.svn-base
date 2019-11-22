@@ -1,0 +1,90 @@
+package kr.or.ddit.vo;
+
+public class DrugSaveVO {
+	private String md_ct_name;
+	private String md_ct_entname;
+	private String md_ct_seq;
+	private String md_ct_color;
+	private String md_ct_line;
+	private String md_ct_size;
+	private String md_ct_shape;
+	private String md_ct_chart;
+	private String md_ct_image;
+	private String md_ct_hit;
+	private String md_ct_date;
+	private String md_ct_no;
+	
+	public String getMd_ct_no() {
+		return md_ct_no;
+	}
+	public void setMd_ct_no(String md_ct_no) {
+		this.md_ct_no = md_ct_no;
+	}
+	public String getMd_ct_name() {
+		return md_ct_name;
+	}
+	public void setMd_ct_name(String md_ct_name) {
+		this.md_ct_name = md_ct_name;
+	}
+	public String getMd_ct_entname() {
+		return md_ct_entname;
+	}
+	public void setMd_ct_entname(String md_ct_entname) {
+		this.md_ct_entname = md_ct_entname;
+	}
+	public String getMd_ct_seq() {
+		return md_ct_seq;
+	}
+	public void setMd_ct_seq(String md_ct_seq) {
+		this.md_ct_seq = md_ct_seq;
+	}
+	public String getMd_ct_color() {
+		return md_ct_color;
+	}
+	public void setMd_ct_color(String md_ct_color) {
+		this.md_ct_color = md_ct_color;
+	}
+	public String getMd_ct_line() {
+		return md_ct_line;
+	}
+	public void setMd_ct_line(String md_ct_line) {
+		this.md_ct_line = md_ct_line;
+	}
+	public String getMd_ct_size() {
+		return md_ct_size;
+	}
+	public void setMd_ct_size(String md_ct_size) {
+		this.md_ct_size = md_ct_size;
+	}
+	public String getMd_ct_shape() {
+		return md_ct_shape;
+	}
+	public void setMd_ct_shape(String md_ct_shape) {
+		this.md_ct_shape = md_ct_shape;
+	}
+	public String getMd_ct_chart() {
+		return md_ct_chart;
+	}
+	public void setMd_ct_chart(String md_ct_chart) {
+		this.md_ct_chart = md_ct_chart;
+	}
+	public String getMd_ct_image() {
+		return md_ct_image;
+	}
+	public void setMd_ct_image(String md_ct_image) {
+		this.md_ct_image = md_ct_image;
+	}
+	public String getMd_ct_hit() {
+		return md_ct_hit;
+	}
+	public void setMd_ct_hit(String md_ct_hit) {
+		this.md_ct_hit = md_ct_hit;
+	}
+	public String getMd_ct_date() {
+		return md_ct_date;
+	}
+	public void setMd_ct_date(String md_ct_date) {
+		this.md_ct_date = md_ct_date;
+	}	
+	
+}

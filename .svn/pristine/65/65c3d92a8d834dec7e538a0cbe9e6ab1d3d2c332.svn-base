@@ -1,0 +1,28 @@
+package kr.or.ddit.user.mypage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.ibatis.factory.SqlMapClientFactory;
+import kr.or.ddit.vo.AllBoardVO;
+
+public class IMemMypageDaoImpl implements IMemMypageDao {
+
+	private SqlMapClient client;
+	private IMemMypageDaoImpl() {
+		client = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	private static IMemMypageDao dao;
+	public static IMemMypageDao getInstance() {
+		return (dao == null) ? new IMemMypageDaoImpl() : dao;
+	}
+	
+	@Override
+	public List<AllBoardVO> myboardList(String mem_id) throws SQLException {
+		return client.queryForList("memmypage.memberBoardList", mem_id);
+	}
+
+}

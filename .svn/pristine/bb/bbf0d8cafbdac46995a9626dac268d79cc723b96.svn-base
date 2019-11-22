@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="news">
+
+	<typeAlias alias="newsVO" type="kr.or.ddit.vo.NewsVO"/>
+	
+	<resultMap class="newsVO" id="newsResultMap">
+		<result property="news_no" column="news_no"/>
+		<result property="news_mem_id" column="news_mem_id"/>
+		<result property="news_mem_name" column="news_mem_name"/>
+		<result property="news_content" column="news_content"/>
+		<result property="news_title" column="news_title"/>
+		<result property="news_reg_date" column="news_reg_date"/>
+		<result property="news_status" column="news_status"/>
+		<result property="news_hit" column="news_hit"/>
+<!-- 		<result property="items" column="news_no" select="newsitem.newsItemList"/> -->
+	</resultMap>
+	
+	<sql id="selectAll">
+		SELECT *
+		  FROM NEWS
+	 	 WHERE NEWS_STATUS = 'y'	
+	</sql>
+	
+	<select id="newsInfo" parameterClass="map" resultMap="newsResultMap">
+		<include refid="selectAll"/>
+			AND NEWS_NO = #news_no#
+	</select>
+	
+	<sql id="searchConditon">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				<isEqual property="search_keycode" compareValue="TOTAL">
+					NEWS_TITLE LIKE '%'||#search_keyword#||'%'
+				 OR NEWS_CONTENT LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="TITLE">
+					NEWS_TITLE LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="CONTENT">
+					NEWS_CONTENT LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="newsList" resultClass="newsVO" >
+		<include refid="selectAll"/>
+<!-- 		<include refid="searchCondition"/> -->
+	</select>
+	 
+	<insert id="insertNews" parameterClass="newsVO">
+		<selectKey keyProperty="news_no" resultClass="string">
+			SELECT news_seq.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO NEWS(NEWS_NO, NEWS_MEM_ID, NEWS_MEM_NAME, NEWS_CONTENT, NEWS_TITLE)
+					  VALUES(#news_no#, #news_mem_id#, #news_mem_name#, #news_content#, #news_title#)
+	</insert>
+	
+	<update id="updateNEWSHIT" parameterClass="map">
+		UPDATE NEWS
+		   SET NEWS_HIT = NEWS_HIT + 1
+		 WHERE NEWS_NO = #news_no#
+	</update>
+	
+	<update id="updateNews" parameterClass="newsVO">
+		UPDATE NEWS
+		   SET NEWS_TITLE = #news_title#
+		      ,NEWS_CONTENT = #news_content#
+		 WHERE MEWS_NO = #news_no#
+	</update>
+	
+	<update id="deleteNews" parameterClass="map">
+		UPDATE FROM NEWS
+		   SET NEWS_STATUS = 'n'
+		 WHERE NEWS_NO = #news_no#
+	</update>
+	
+	<select id="totalCount" parameterClass="map" resultClass="string">
+		SELECT COUNT(NEWS_NO)
+		  FROM NEWS
+		 WHERE NEWS_STATUS = 'y'
+<!-- 		   <include refid="searchCondition"/> -->
+	</select>
+	
+	
+	
+	
+</sqlMap>    
+    
+    
+
+

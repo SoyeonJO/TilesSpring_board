@@ -1,0 +1,20 @@
+package kr.or.ddit.admin.news.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.fileupload.FileItem;
+
+import kr.or.ddit.vo.NewsVO;
+
+public interface INewsDao {
+	//public List<NewsVO> newsList(Map<String, String> params) throws SQLException;
+	public List<NewsVO> newsList(Map<String, String> params) throws SQLException;
+	public NewsVO newsInfo(Map<String, String> params) throws SQLException;
+	public String insertNewsInfo(NewsVO newsInfo) throws SQLException;
+	public void updateNewsInfo(NewsVO newsInfo) throws SQLException;
+	public void deleteNewsInfo(Map<String, String> params) throws SQLException;
+	public String totalCount(Map<String, String> params) throws SQLException;
+	
+}

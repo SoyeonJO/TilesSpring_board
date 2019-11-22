@@ -1,0 +1,61 @@
+# \uc720\uc800 \uba54\uc778
+/user/main/mainTemplate.do=kr.or.ddit.user.main.controller.MainAction
+
+
+/admin/main.do=
+
+
+# \ucc44\uc724
+/user/notice/noticeList.do=kr.or.ddit.user.notice.controller.NoticeListAction
+/user/notice/noticeView.do=kr.or.ddit.user.notice.controller.NoticeViewAction
+/user/notice/noticeView.do=kr.or.ddit.user.notice.controller.NoticeViewAction
+
+
+# \uc18c\uc5f0
+
+/user/freeboard/freeboardList.do=kr.or.ddit.user.freeboard.controller.FreeboardListAction
+/user/freeboard/freeboardForm.do=kr.or.ddit.user.freeboard.controller.FreeboardFormAction
+/user/freeboard/freeboardView.do=kr.or.ddit.user.freeboard.controller.FreeboardViewAction
+/user/freeboard/insertBoardInfo.do=kr.or.ddit.user.freeboard.controller.InsertFormAction
+/user/freeboard/updateBoardInfo.do=kr.or.ddit.user.freeboard.controller.UpdateFormAction
+/user/freeboard/deleteBoardInfo.do=kr.or.ddit.user.freeboard.controller.DeleteFormAction
+
+
+
+# \uc815\ubbfc
+/user/news/newsList.do=kr.or.ddit.user.news.controller.NewsListAction
+/user/news/newsView.do=kr.or.ddit.user.news.controller.NewsViewAction
+/user/news/newsForm.do=kr.or.ddit.user.news.controller.NewsFormAction
+/user/news/insertNewsInfo.do=kr.or.ddit.user.news.controller.InsertNewsAction
+
+
+# doeyoung
+/user/member/memberForm.do=kr.or.ddit.user.member.controller.MemberFormAction
+/user/member/zipcodeSearchForm.do=kr.or.ddit.user.member.controller.ZipcodeSearchFormAction
+/user/member/insertMemberInfo.do=kr.or.ddit.user.member.controller.InsertMemberAction
+/user/member/idCheck.do=kr.or.ddit.user.member.controller.IdCheckAction
+/user/member/searchIdPass.do=kr.or.ddit.user.member.controller.SearchIdPassAction
+/user/member/findId.do=kr.or.ddit.user.member.controller.FindIdAction
+/user/member/findPass.do=kr.or.ddit.user.member.controller.FindPassAction
+
+/user/login/loginCheck.do=kr.or.ddit.user.login.controller.LoginCheckAction
+/user/login/logout.do=kr.or.ddit.user.login.controller.LogoutAction
+
+/user/mypage/mypage.do=kr.or.ddit.user.mypage.controller.MyPageAction
+/user/mypage/mypagePassCheck.do=kr.or.ddit.user.mypage.controller.MyPagePassCheckAction
+/user/mypage/passCheck.do=kr.or.ddit.user.mypage.controller.PassCheckAction
+/user/mypage/updateMember.do=kr.or.ddit.user.mypage.controller.UpdateMemberAction
+
+/admin/main.do=kr.or.ddit.admin.main.controller.MainAction
+/admin/member/memberList.do=kr.or.ddit.admin.member.controller.MemberListAction
+/admin/member/memberView.do=kr.or.ddit.admin.member.controller.MemberViewAction
+
+
+
+# \uc885\ubbfc
+/user/drug/searchDrugName.do=kr.or.ddit.user.drug.controller.SearchDrugMainAction
+/user/drug/searchDrugForm.do=kr.or.ddit.user.drug.controller.SearchDrugFormArcion
+/user/drug/drugName.do=kr.or.ddit.user.drug.controller.DrugNameAction
+/user/drug/drugInfo.do=kr.or.ddit.user.drug.controller.DrugInfoAction
+
+

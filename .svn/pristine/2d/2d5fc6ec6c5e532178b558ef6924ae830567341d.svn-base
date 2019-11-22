@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="mem">
+	<typeAlias alias="memberVO" type="kr.or.ddit.vo.MemberVO" />
+	<typeAlias alias="wdVO" type="kr.or.ddit.vo.WithdrawVO" />
+
+	<sql id="selectAll">
+		SELECT MEM_ID, MEM_NAME, MEM_PASS, MEM_NICK, MEM_MAIL, TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') AS MEM_BIRTH, MEM_TEL, MEM_ZIP, MEM_ADDR1, MEM_ADDR2, MEM_STATUS
+		FROM MEMBER
+		WHERE MEM_STATUS = 'y'
+	</sql>
+
+	<sql id="searchCondition">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				<isEqual property="search_keycode" compareValue="ALL">
+					MEM_NICK
+					LIKE '%'||#search_keyword#||'%'
+					OR MEM_ADDR1 LIKE
+					'%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="NICK">
+					MEM_NICK
+					LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="ADDR">
+					MEM_ADDR1
+					LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<select id="memberInfo" parameterClass="map" resultClass="memberVO">
+		<include refid="selectAll" />
+		AND MEM_ID = #mem_id#
+		<dynamic>
+			<isNotEmpty property="mem_pass" prepend="AND">
+				MEM_PASS = #mem_pass#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="memberList" resultClass="memberVO" parameterClass="map">
+		<include refid="selectAll" /> <!-- 중복되는 부분은 하나를 만들어서 id를 이용해 사용 -->
+		<include refid="searchCondition" />
+	</select>
+
+	<select id="memberIdSearch" parameterClass="map" resultClass="memberVO">
+		<include refid="selectAll" />
+		AND MEM_NAME = #mem_name#
+      AND TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') = #mem_birth#
+	</select>
+
+	<select id="memberPassSearch" parameterClass="map" resultClass="memberVO">
+		<include refid="selectAll" />
+		AND MEM_ID = #mem_id#
+      	AND MEM_TEL = #mem_tel#
+      	AND MEM_NAME = #mem_name#
+	</select>
+
+	<update id="memberUpdate" parameterClass="memberVO">
+		UPDATE MEMBER
+		SET MEM_PASS = #mem_pass#
+		,MEM_NICK = #mem_nick#
+		,MEM_TEL = #mem_tel#
+		,MEM_MAIL = #mem_mail#
+		,MEM_BIRTH = #mem_birth#
+		,MEM_ZIP = #mem_zip#
+		,MEM_ADDR1 = #mem_addr1#
+		,MEM_ADDR2 = #mem_addr2#
+		WHERE MEM_ID = #mem_id#
+	</update>
+
+	<delete id="memberDelete" parameterClass="string">
+		UPDATE MEMBER
+		SET MEM_STATUS = 'n'
+		WHERE MEM_ID = #mem_id#
+	</delete>
+
+	<insert id="memberInsert" parameterClass="memberVO">
+		INSERT INTO
+		MEMBER(MEM_ID, MEM_PASS, MEM_NAME, MEM_NICK, MEM_BIRTH, MEM_TEL, MEM_MAIL,
+		MEM_ZIP, MEM_ADDR1, MEM_ADDR2)
+		VALUES (#mem_id#, #mem_pass#, #mem_name#, #mem_nick#, #mem_birth#, #mem_tel#,
+		#mem_mail#, #mem_zip#, #mem_addr1#, #mem_addr2#)
+	</insert>
+	
+	<insert id="memDelinsert" parameterClass="wdVO">
+      <selectKey keyProperty="quit_no">
+         SELECT QUIT_NO.NEXTVAL FROM DUAL
+      </selectKey>
+		INSERT INTO 
+		WITHDRAW
+		(QUIT_NO, QUIT_MEM_ID, QUIT_MEM_NAME, QUIT_MEM_MSG, QUIT_MEM_TEL, QUIT_MEM_STAR, QUIT_MEM_DATE )
+		VALUES
+		(#quit_no#, #quit_mem_id#, #quit_mem_name#, #quit_mem_msg#, #quit_mem_tel#, #quit_mem_star#, SYSDATE)
+	</insert>
+	
+</sqlMap>    

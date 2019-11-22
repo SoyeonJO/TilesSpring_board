@@ -1,0 +1,10 @@
+package kr.or.ddit.user.mypage.service;
+
+import java.util.List;
+
+import kr.or.ddit.vo.AllBoardVO;
+
+public interface IMemMypageService {
+
+	public List<AllBoardVO> myboardList(String mem_id);
+}

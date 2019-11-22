@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="qnaboard">
+
+	<typeAlias alias="QnaVO" type="kr.or.ddit.vo.QnaboardVO"/>
+
+	<resultMap id="qnaResultMap" class="kr.or.ddit.vo.QnaboardVO">
+		<result property="qa_no" column="qa_no"/>
+		<result property="qa_title" column="qa_title"/>
+		<result property="qa_content" column="qa_content"/>
+		<result property="qa_hit" column="qa_hit"/>
+		<result property="qa_reg_date" column="qa_reg_date"/>
+		<result property="qa_pwd" column="qa_pwd"/>
+		<result property="qa_status" column="qa_status"/>
+		<result property="qa_seq" column="qa_seq"/>
+		<result property="qa_group" column="qa_group"/>
+		<result property="qa_depth" column="qa_depth"/>
+		<result property="qa_mem_id" column="qa_mem_id"/>
+		<result property="items" column="qa_no" select="qnaitem.qnaItemList"/>
+	</resultMap>
+
+	<sql id="qnaAll">
+		SELECT *
+		  FROM QNA
+		 WHERE QA_STATUS = 'y' 
+	</sql>
+
+	<sql id="searchCondition">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				<isEqual property ="search_keycode" compareValue ="TOTAL"> 
+	                     QA_TITLE LIKE '%'||#search_keyword#||'%'
+    		    	  OR QA_CONTENT LIKE '%'||#search_keyword#||'%'
+    		       	  OR QA_MEM_ID LIKE '%'||#search_keyword#||'%'
+	                </isEqual>
+	                <isEqual property ="search_keycode" compareValue ="TITLE"> 
+	                QA_TITLE LIKE '%'||#search_keyword#||'%'
+	                </isEqual>
+	                <isEqual property ="search_keycode" compareValue ="CONTENT"> 
+	                QA_CONTENT LIKE '%'||#search_keyword#||'%'
+	                </isEqual>
+	                <isEqual property ="search_keycode" compareValue ="NAME"> 
+	                QA_MEM_ID LIKE '%'||#search_keyword#||'%'
+	                </isEqual>
+			</isNotEmpty>
+		</dynamic>
+ 	</sql> 
+	
+	<select id="qnaBoardInfo" parameterClass="map" resultMap="qnaResultMap">
+		<include refid="qnaAll"/>
+		AND QA_NO = #qa_no#
+	</select>
+
+	<select id="qnaBoardList" parameterClass="map" resultClass="QnaVO">
+		SELECT B.*
+		   FROM (SELECT ROWNUM RNUM, A.*
+	                  FROM (<include refid="qnaAll"/>
+	                        <include refid="searchCondition"/>
+	              ORDER BY QA_GROUP, QA_SEQ DESC) A) B
+	                      <![CDATA[ 
+	                 WHERE B.RNUM <= #startCount#
+	          		   AND B.RNUM >= #endCount#
+	          		   ]]>	
+	              ORDER BY RNUM DESC  
+	</select>
+
+	<insert id="qnainsert" parameterClass="QnaVO">
+		<selectKey keyProperty="qa_no" resultClass="String">
+			SELECT QNA_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO QNA (QA_NO
+						,QA_TITLE
+						,QA_CONTENT
+						,QA_PWD
+						,QA_GROUP
+						,QA_MEM_ID
+						)
+				 VALUES (#qa_no#
+						,#qa_title#
+						,#qa_content#
+						,#qa_pwd#
+						,#qa_no#
+						,#qa_mem_id#
+						)
+	</insert>
+
+	<update id="qnaupdate" parameterClass="QnaVO">
+		UPDATE QNA
+		   SET QA_TITLE = #qa_title#
+		       ,QA_CONTENT = #qa_content#
+		 WHERE QA_NO = #qa_no#		       
+	</update>
+	
+	<update id="qnadelete" parameterClass="map">
+		UPDATE QNA
+		   SET QA_STATUS = 'n'
+		 WHERE QA_NO = #qa_no#
+	</update>
+	
+	<update id="updateQNAHIT" parameterClass="map">
+		UPDATE QNA
+		   SET QA_HIT = QA_HIT + 1	
+		 WHERE QA_NO = #qa_no#
+	</update>
+	
+	<select id="totalCount" parameterClass="map" resultClass="string">
+	 	SELECT COUNT(QA_NO)
+	 	  FROM QNA
+	 	 WHERE QA_STATUS = 'y'
+	 	 <include refid="searchCondition"/>
+	</select>
+	
+	 <select id = "incrementSEQ" parameterClass="QnaVO" resultClass="String">
+       	SELECT MAX(QA_SEQ) + 1 
+      	  FROM QNA
+      	 WHERE QA_STATUS = 'y' 
+      	   AND QA_GROUP = #qa_group#
+    </select>
+    
+    
+     <update id="updateSEQ" parameterClass= "QnaVO">    
+  		UPDATE QNA
+  		   SET QA_SEQ = QA_SEQ +1
+  		 WHERE QA_STATUS='y'
+  		   AND QA_GROUP = #qa_group#   
+           AND QA_SEQ=#qa_seq#
+     </update>
+     
+     
+      <insert id ="insertQnaBoardReply" parameterClass="QnaVO">
+  			 <selectKey keyProperty="qa_no" > 
+	                SELECT QNA_SEQ.NEXTVAL FROM DUAL
+	           </selectKey>	
+	           
+    	INSERT INTO QNA (QA_NO
+						,QA_TITLE
+						,QA_CONTENT
+						,QA_PWD
+						,QA_MEM_ID
+						,QA_SEQ
+						,QA_DEPTH
+						,QA_GROUP
+						)
+				 VALUES (#qa_no#
+						,#qa_title#
+						,#qa_content#
+						,#qa_pwd#
+						,#qa_mem_id#
+						,#qa_seq#
+						,#qa_depth#
+						,#qa_group#
+						)
+   </insert>
+   
+</sqlMap>    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

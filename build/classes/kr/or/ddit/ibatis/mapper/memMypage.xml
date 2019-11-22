@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="memmypage">
+	<typeAlias alias="memberVO" type="kr.or.ddit.vo.MemberVO" />
+	<typeAlias alias="allboardVO" type="kr.or.ddit.vo.AllBoardVO" />
+	
+	<sql id="searchFreeBoard">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				BO_TITLE LIKE '%'||#search_keyword#||'%'
+				OR BO_CONTENT LIKE '%'||#search_keyword#||'%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+
+	<sql id="searchQnaBoard">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				BO_TITLE LIKE '%'||#search_keyword#||'%'
+				OR BO_CONTENT LIKE '%'||#search_keyword#||'%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<sql id="freeSelectAll">
+		SELECT *
+ 		  FROM FREEBOARD
+ 		 WHERE BO_STATUS = 'y'
+	</sql>
+	
+	<sql id="qnaSelectAll">
+		SELECT *
+		  FROM QNA
+		 WHERE QA_STATUS = 'y'
+	</sql>	
+	
+
+	<select id="memberFreeBList" parameterClass="map" resultClass="allboardVO">
+		SELECT B.*
+  		  FROM (SELECT ROWNUM RNUM, A.*
+          	  	  FROM (<include refid="freeSelectAll"/>
+                   		   AND BO_MEM_ID = #mem_id#
+                   		   <include refid="searchFreeBoard"/>
+                  		 ORDER BY BO_NO) A ) B
+         <![CDATA[         		 
+ 	     WHERE B.RNUM <= #startCount#
+           AND B.RNUM >= #endCount#
+         ]]>  
+ 	     ORDER BY B.RNUM DESC
+	</select>
+	
+	<select id="memberQnaBList" parameterClass="map" resultClass="allboardVO">
+		   SELECT B.*
+  		  FROM (SELECT ROWNUM RNUM, A.*
+          	  	  FROM (<include refid="qnaSelectAll"/>
+                   		   AND QA_MEM_ID = #mem_id#
+                   		   <include refid="searchQnaBoard"/>
+                  		 ORDER BY QA_NO) A ) B
+         <![CDATA[         		 
+ 	     WHERE B.RNUM <= #startCount#
+           AND B.RNUM >= #endCount#
+         ]]>  
+ 	     ORDER BY B.RNUM DESC
+	</select>
+	
+	<select id="totalCountFree" parameterClass="map" resultClass="string">
+		SELECT COUNT(*)
+		  FROM FREEBOARD
+		 WHERE BO_STATUS = 'y'
+		   AND BO_MEM_ID = #mem_id#
+		   <include refid="searchFreeBoard"/> 
+	</select>
+
+	<select id="totalCountQna" parameterClass="map" resultClass="string">
+		SELECT COUNT(*)
+		  FROM QNA
+		 WHERE QA_STATUS = 'y'
+		   AND QA_MEM_ID = #mem_id# 
+		   <include refid="searchQnaBoard"/>
+	</select>
+
+
+</sqlMap>    
+    

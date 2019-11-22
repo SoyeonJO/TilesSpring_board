@@ -1,0 +1,122 @@
+<%@ page language="JAVA" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	
+<c:set var="cPath" value="${pageContext.request.contextPath}"></c:set>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자유게시글 목록</title>
+<!-- ico image -->
+<link rel="shortcut icon" href="/images/icons/drug.ico">
+
+</head>
+<body>
+	<div id="freeboardList_content">
+		<div class="panel panel-green">
+			<div class="panel-heading">자유게시판</div>
+			<div class="panel-body">
+
+				<table class="table table-hover-color">
+					<thead>
+						<tr>
+							<th scope="col" width="5%">No</th>
+							<th scope="col" width="54%">제목</th>
+							<th scope="col" width="12%">작성자</th>
+							<th scope="col" width="12%">닉네임</th>
+							<th scope="col" width="13%">작성일</th>
+							<th scope="col" width="15%">조회수</th>
+						</tr>
+					</thead>
+					<tbody id ="boardSelect">
+					<c:if test="${empty list }">
+						<tr align="center">
+							<td colspan="5"> <font color="red">등록된 게시글이 없습니다.</font> </td>
+						</tr>
+					</c:if>
+					 <c:if test="${!empty list }">
+							<c:forEach items="${list}" var="boardlist">
+								<tr>                          <!-- bo_no를 !rnum처리! -->
+									<td><input type="hidden" id="no" value="${boardlist.bo_no}"/>${boardlist.rnum}</td>
+									<td align="left">
+										<c:forEach begin="1" end="${boardlist.bo_depth }" varStatus="stat">
+											&nbsp;&nbsp;&nbsp;
+											<c:if test="${stat.last }">
+												<i class="fa fa-angle-right"></i>
+											</c:if>
+										</c:forEach>
+										${boardlist.bo_title }
+									</td>
+									<td>${boardlist.bo_mem_id}</td>
+									<td>${boardlist.bo_nickname}</td>
+									<td>${boardlist.bo_reg_date}</td>
+									<td>${boardlist.bo_hit}</td>
+								</tr>
+							</c:forEach>
+					   </c:if>
+					</tbody>
+				</table>
+			</div>
+	</div>
+${pagingUtiles.getPagingHTMLS()}
+	<form action="/user/freeboard/freeboardList.do" method="post" class="form-inline pull-right">
+			<input id="search_keyword" name ="search_keyword"  type="text" placeholder="검색어 입력..." class="form-control"/> 
+			<select class="form-control" name="search_keycode">
+				<option>검색조건</option>
+				<option value="TOTAL">전체</option>
+				<option value="TITLE">제목</option>
+				<option value="CONTENT">내용</option>
+				<option value="NICKNAME">닉네임</option>
+			</select>
+			<button type="submit" class="btn btn-primary form-control">검색</button>
+			<button type="button" class="btn btn-info form-control" id ="btn1">게시글 등록</button>
+		</form>
+	</div>
+</body>
+
+<script type= "text/javascript">
+ $(function(){
+	 
+	 
+	 
+	$('#btn1').click(function(){
+		if(eval('${!empty LOGIN_MEMBERINFO}')){
+			$(location).attr('href', '${pageContext.request.contextPath}/user/freeboard/freeboardForm.do');
+		}else{
+			BootstrapDialog.show({
+			    title: '경고',
+			    message: '로그인해주세요.'
+			});
+		}
+	});  
+
+	
+	$('#boardSelect tr').click(function(){    //input을 넣어주어서 rnum값으로 뷰를 가져오도록 만들어주기! 
+/* 		var bo_no = $(this).find('td:eq(0) input').val();
+		var url = '${pageContext.request.contextPath}/user/freeboard/freeboardView.do';
+		 $(location).attr('href', url + '?bo_no=' + bo_no );  */
+
+	
+		 var bo_no = $(this).find('td:eq(0) input').val();
+			if(eval('${!empty LOGIN_MEMBERINFO}')){
+				var url = '${pageContext.request.contextPath}/user/freeboard/freeboardView.do';
+				 $(location).attr('href', url + '?bo_no=' + bo_no );
+			}else{
+				BootstrapDialog.show({
+				    title: '경고',
+				    message: '로그인해주세요.'
+				});
+			}
+	
+	
+	
+	});
+	
+	
+
+	
+});
+
+</script>
+</html>

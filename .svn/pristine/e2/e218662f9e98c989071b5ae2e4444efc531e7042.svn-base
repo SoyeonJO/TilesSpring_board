@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="drug">
+
+	<typeAlias alias="drugVO" type="kr.or.ddit.vo.DrugSaveVO"/>
+
+	<insert id="insertDrugInfo" parameterClass="drugVO">
+		insert into md_ct(md_ct_seq, md_ct_name, md_ct_entname, md_ct_color, md_ct_line, md_ct_shape, md_ct_chart, md_ct_image)
+		values(#md_ct_seq#, #md_ct_name#, #md_ct_entname#, #md_ct_color#, #md_ct_line#, #md_ct_shape#, #md_ct_chart#, #md_ct_image#)
+	</insert>
+	
+</sqlMap>    
+    
+    
+
+

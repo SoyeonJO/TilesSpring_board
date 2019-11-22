@@ -1,0 +1,34 @@
+package kr.or.ddit.user.mypage.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.user.mypage.dao.IMemMypageDao;
+import kr.or.ddit.user.mypage.dao.IMemMypageDaoImpl;
+import kr.or.ddit.vo.AllBoardVO;
+import kr.or.ddit.vo.MemberVO;
+
+public class IMemMypageServiceImpl implements IMemMypageService {
+
+	private IMemMypageDao dao;
+	private IMemMypageServiceImpl() {
+		dao = IMemMypageDaoImpl.getInstance();
+	}
+	
+	private static IMemMypageService service;
+	public static IMemMypageService getInstance() {
+		return (service == null) ? new IMemMypageServiceImpl() : service;
+	}
+	
+	@Override
+	public List<AllBoardVO> myboardList(String mem_id) {
+		List<AllBoardVO> list = null;
+		try {
+			list = dao.myboardList(mem_id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+}

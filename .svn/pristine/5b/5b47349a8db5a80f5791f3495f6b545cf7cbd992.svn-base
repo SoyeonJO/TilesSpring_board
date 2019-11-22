@@ -1,0 +1,29 @@
+package kr.or.ddit.admin.mypage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.WithdrawVO;
+
+public interface IAdminMypageDao {
+
+	// 회원 조회 및 검색
+	public List<MemberVO> memberList(Map<String, String> params) throws SQLException;
+	
+	// 탈퇴 회원 조회 및 검색
+	public List<WithdrawVO> memberListDel(Map<String, String> params) throws SQLException;
+	
+	// 페이지네이션
+	public String totalCountMember(Map<String, String> params) throws SQLException;
+	
+	// 탈퇴회원 페이지네이션
+	public String totalCountMemberDel(Map<String, String> params) throws SQLException;
+	
+	// 회원 강제 탈퇴
+	public void memberDelete(MemberVO membervo) throws SQLException;
+	
+	// 별갯수 구하기
+	public String countStar(String star) throws SQLException;
+}

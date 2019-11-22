@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>DrugStore</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  <!-- 
+  		filter 설정
+   -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>kr.or.ddit.filter.EncodingFilter</filter-class>
+	</filter>
+  	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+  
+  	<filter>
+		<filter-name>fileUploadFilter</filter-name>
+		<filter-class>kr.or.ddit.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>fileUploadFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>cryptoFilter</filter-name>
+		<filter-class>kr.or.ddit.filter.CryptoGeneratorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cryptoFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>  
+	
+	
+  <!-- 
+  		Session 분단위 설정(모든 유저 대상) : 60분
+   -->
+  <session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+  
+  
+  
+  
+   <!-- 
+   	클라이언트는 do확장자를 활용해 서버 대상 요청
+   	브라우저 주소창에 .jsp or .txt etc... X
+    -->
+   <servlet>
+   		<servlet-name>webController</servlet-name>
+   		<servlet-class>kr.or.ddit.base.controller.WebController</servlet-class>
+   		<load-on-startup>1</load-on-startup>
+   </servlet> 
+   <servlet-mapping>
+   		<servlet-name>webController</servlet-name>
+   		<url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+   
+   <!-- 
+   		타일즈
+   			TilesServlet 역할 : 타일즈 설정파일에 접근 UT구성을 활용
+   							   default /WEB-INF/tiles.xml
+   							   DEFINITIONS_CONFIG : 사용자 정의 타일즈 설정파일 배치
+   			TilesDispatchServlet 역할 : 취득한 서블릿 패스(확장자 tiles) 확장자를
+   									   제거 후 제거된 서블릿 패스를 TilesServlet 전달.
+   									   MainAction.process(){
+   									   	return "/user/freeboard/freeboardList.tiles";
+   									   }
+   									   
+   									   => "user/freeboard/freeboardList" 추출 및 TilesServlet에 전달
+   									   => TilesServlet은 취득한 "user/freeboard/freeboardList"을 기초로
+   									        타일즈 설정파일에 접근(tiles-def.xml)
+    -->
+   <servlet>
+   		<servlet-name>tiles</servlet-name>
+   		<servlet-class>org.apache.tiles.web.startup.TilesServlet</servlet-class>
+   		<init-param>
+   			<param-name>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
+   			<param-value>/WEB-INF/tiles/tiles-def.xml</param-value>
+   		</init-param>
+   		<load-on-startup>2</load-on-startup>
+   </servlet>
+   
+   <servlet>
+   		<servlet-name>tilesDispatch</servlet-name>
+   		<servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+   		<servlet-name>tilesDispatch</servlet-name>
+   		<url-pattern>*.tiles</url-pattern>
+   </servlet-mapping>
+   
+   
+   <!-- 리스너 -->
+   	<listener>
+  		<listener-class>kr.or.ddit.listener.SessionManager</listener-class>
+	</listener>
+   <listener>
+  		<listener-class>kr.or.ddit.listener.Log4jInitializeListener</listener-class>
+   </listener>
+  
+  
+</web-app>

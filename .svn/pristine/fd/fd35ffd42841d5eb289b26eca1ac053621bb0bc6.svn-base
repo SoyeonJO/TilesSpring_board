@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap     
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="noticeitem">
+   <typeAlias alias="noticeitemVO" type="kr.or.ddit.vo.NoticeItemVO"/>
+   
+   <statement id="noticeItemList" resultClass="noticeitemVO">
+   		SELECT *
+   		  FROM NOTICEITEM
+   		 WHERE NOTICE FI_NOT_NO = #fi_not_no#
+   </statement>
+   
+   <insert id="insertNoticeItem" parameterClass="noticeitemVO">
+   		<selectKey keyProperty="fi_not_seq">
+   			SELECT FI_NOT_SEQ.NEXTVAL FROM DUAL
+   		</selectKey>
+   		
+   		INSERT INTO NOTICEITEM(FI_NOT_SEQ,
+							   FI_NOT_NO,
+							   FI_NOT_NAME,
+							   FI_NOT_SAVE_NAME,
+							   FI_NOT_CONTENT_TYPE,
+							   FI_NOT_SIZE)
+   						VALUES(#fi_not_seq#,
+								#fi_not_no#,
+								#fi_not_name#,
+								#fi_not_save_name#,
+								#fi_not_content_type#,
+								#fi_not_size#)						
+   </insert>
+   
+   <select id="fileItemInfo" parameterClass="map" resultClass="noticeitemVO">
+   	SELECT *
+   	  FROM NOTICEITEM
+   	 WHERE FI_NOT_SEQ = #fi_not_seq#
+   </select>
+   
+</sqlMap>

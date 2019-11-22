@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap     
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+ <sqlMap namespace="newsitem">
+ 	<typeAlias alias="newsitemVO" type="kr.or.ddit.vo.NewsItemVO"/>
+ 	
+ 	<statement id="newsItemList" resultClass="newsitemVO">
+ 		SELECT *
+ 		  FROM FI_NEWS
+ 		 WHERE FI_NEWS_NO = #news_no#
+ 	</statement>
+ 	
+ 	<insert id="insertNewsItem" parameterClass="newsitemVO">
+ 		<selectKey keyProperty="fi_news_seq">
+			SELECT NEWSITEM_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+ 		INSERT INTO FI_NEWS(FI_NEWS_NO
+							 ,FI_NEWS_NAME
+							 ,FI_NEWS_SAVE_NAME
+							 ,FI_NEWS_CONTENT_TYPE
+							 ,FI_NEWS_SIZE
+							 ,FI_NEWS_SEQ)
+					  VALUES(#fi_news_no#
+							,#fi_news_name#
+							,#fi_news_save_name#
+							,#fi_news_content_type#
+							,#fi_news_size#
+							,#fi_news_seq#)				 
+ 	</insert>
+ 	
+ 	<select id="newsItemInfo" parameterClass="map" resultClass="newsitemVO">
+ 		SELECT *
+ 		  FROM FI_NEWS
+ 		 WHERE FI_NEWS_SEQ = #fi_news_seq#
+ 	</select>
+ 	
+ </sqlMap>   

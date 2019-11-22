@@ -1,0 +1,106 @@
+package kr.or.ddit.user.member.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.user.member.dao.IMemberDao;
+import kr.or.ddit.user.member.dao.IMemberDaoImpl;
+import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.ZipVO;
+
+public class IMemberServiceImpl implements IMemberService{
+	
+	private IMemberDao dao;
+	private IMemberServiceImpl () {
+		dao = IMemberDaoImpl.getInstance();
+	}
+	
+	private static IMemberService service;
+	public static IMemberService getInstance() {
+		return (service == null) ? new IMemberServiceImpl() : service;
+	}
+
+	@Override
+	public void memberInsert(MemberVO membervo) {
+		try {
+			dao.memberInsert(membervo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public MemberVO memberIdSearch(Map<String, String> params) {
+		MemberVO id = null;
+		try {
+			id = dao.memberIdSearch(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	@Override
+	public MemberVO memberPassSearch(Map<String, String> params) {
+		MemberVO pass = null;
+		try {
+			pass = dao.memberPassSearch(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pass;
+	}
+
+	@Override
+	public List<MemberVO> memberList(Map<String, String> params) {
+		List<MemberVO> list = null;
+		try {
+			list = dao.memberList(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public MemberVO memberInfo(Map<String, String> params) {
+		MemberVO vo = null;
+		try {
+			vo = dao.memberInfo(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	@Override
+	public void memberUpdate(MemberVO membervo) {
+		try {
+			dao.memberUpdate(membervo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void memberDelete(MemberVO membervo) {
+		try {
+			dao.memberDelete(membervo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<ZipVO> zipcodeList(String dong) {
+		List<ZipVO> list = null;
+		try {
+			list = dao.zipcodeList(dong);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+}

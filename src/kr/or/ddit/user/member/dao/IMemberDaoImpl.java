@@ -1,0 +1,72 @@
+package kr.or.ddit.user.member.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.ibatis.factory.SqlMapClientFactory;
+import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.WithdrawVO;
+import kr.or.ddit.vo.ZipVO;
+
+public class IMemberDaoImpl implements IMemberDao {
+
+	private SqlMapClient client;
+	private IMemberDaoImpl() {
+		client = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	private static IMemberDao dao;
+	public static IMemberDao getInstance() {
+		return (dao == null) ? new IMemberDaoImpl() : dao;
+	}
+	
+	@Override
+	public void memberInsert(MemberVO membervo)  throws SQLException{
+		client.insert("mem.memberInsert", membervo);
+	}
+
+	@Override
+	public MemberVO memberIdSearch(Map<String, String> params) throws SQLException {
+		return (MemberVO) client.queryForObject("mem.memberIdSearch", params);
+	}
+
+	@Override
+	public MemberVO memberPassSearch(Map<String, String> params) throws SQLException {
+		return (MemberVO) client.queryForObject("mem.memberPassSearch", params);
+	}
+
+	@Override
+	public List<MemberVO> memberList(Map<String, String> params) throws SQLException {
+		return client.queryForList("mem.memberList", params);
+	}
+
+	@Override
+	public MemberVO memberInfo(Map<String, String> params) throws SQLException {
+		return (MemberVO) client.queryForObject("mem.memberInfo", params);
+	}
+
+	@Override
+	public void memberUpdate(MemberVO membervo) throws SQLException {
+		client.update("mem.memberUpdate", membervo);
+	}
+
+	@Override
+	public void memberDelete(String mem_id) throws SQLException {
+		client.delete("mem.memberDelete", mem_id);
+	}
+
+	@Override
+	public List<ZipVO> zipcodeList(String dong) throws SQLException {
+		return client.queryForList("zipcode.zipcodeList", dong);
+	}
+
+	@Override
+	public void memDelinsert(WithdrawVO member) throws SQLException {
+		client.insert("mem.memDelinsert", member);
+	}
+
+	
+}

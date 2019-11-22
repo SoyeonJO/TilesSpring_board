@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="memmypage">
+	<typeAlias alias="memberVO" type="kr.or.ddit.vo.MemberVO" />
+	
+	<select id="memberBoardList" parameterClass="string" resultClass="memberVO">
+		 SELECT B.*
+        FROM (SELECT ROWNUM RNUM, A.*
+               FROM (select bo_title, bo_reg_date, bo_hit
+                      from freeboard
+                     where bo_nickname = 'a001'
+ 
+                      union
+
+                      SELECT QA_TITLE, QA_REG_DATE, QA_HIT
+                        FROM QNA
+                       WHERE QA_MEM_ID = 'a001'
+                       order by BO_REG_DATE ) A ) B
+        ORDER BY B.RNUM  
+	</select>
+	
+
+
+
+
+
+</sqlMap>    
+    

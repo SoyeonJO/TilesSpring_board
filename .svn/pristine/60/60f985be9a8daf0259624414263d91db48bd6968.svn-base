@@ -1,0 +1,16 @@
+package kr.or.ddit.admin.mypage.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.vo.MemberVO;
+
+public interface IAdminMypageDao {
+
+	// 회원 조회 및 검색
+	public List<MemberVO> memberList(Map<String, String> params) throws SQLException;
+	
+	// 회원 강제 탈퇴
+	public void memberDelete(MemberVO membervo) throws SQLException;
+}

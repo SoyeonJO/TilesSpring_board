@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	.image{
+		width : 30px;
+		height : 30px;
+		float: right;
+	}
+</style>
+</head>
+<body>
+	<form action="">
+		<div class="btn-group">
+			<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+				검색방법 &nbsp;<i class="fa fa-angle-down"></i>
+			</button>
+			<ul role="menu" class="dropdown-menu">
+				<li><a href="/user/drug/searchDrugName.do">의약품명</a></li>
+				<li><a href="/user/drug/searchDrugForm.do">의약품 모양</a></li>
+			</ul>
+		</div>
+
+		<div class="panel-heading">의약품 모양으로 찾기</div>
+		<div class="input-group-btn">
+			<button type="button" tabindex="-1" class="btn btn-default">모양 전체</button>
+			<button type="button" data-toggle="dropdown" tabindex="-1" class="btn btn-default dropdown-toggle">
+				<span class="caret"></span><span class="sr-only">ToggleDropdown</span>
+			</button>
+			<ul role="menu" class="dropdown-menu">
+				<li><a href="#">원형<image class="image" src="${pageContext.request.contextPath }/drugImages/원형.png"/></a></li>
+				<li><a href="#">타원형<image class="image" src="${pageContext.request.contextPath }/drugImages/타원형.png"/></a></li>
+				<li><a href="#">반원형<image class="image" src="${pageContext.request.contextPath }/drugImages/반원형.png"/></a></li>
+				<li><a href="#">삼각형<image class="image" src="${pageContext.request.contextPath }/drugImages/삼각형.png"/></a></li>
+				<li><a href="#">사각형<image class="image" src="${pageContext.request.contextPath }/drugImages/사각형.png"/></a></li>
+				<li><a href="#">마름모형<image class="image" src="${pageContext.request.contextPath }/drugImages/마름모형.png"/></a></li>
+				<li><a href="#">장방형<image class="image" src="${pageContext.request.contextPath }/drugImages/장방형.png"/></a></li>
+				<li><a href="#">오각형<image class="image" src="${pageContext.request.contextPath }/drugImages/오각형.png"/></a></li>
+				<li><a href="#">육각형<image class="image" src="${pageContext.request.contextPath }/drugImages/육각형.png"/></a></li>
+				<li><a href="#">팔각형<image class="image" src="${pageContext.request.contextPath }/drugImages/팔각형.png"/></a></li>
+				<li><a href="#">기타<image class="image" src="${pageContext.request.contextPath }/drugImages/기타.png"/></a></li>
+			</ul>
+		</div>
+		
+		<div class="input-group-btn">
+			<button type="button" tabindex="-1" class="btn btn-default">색상 전체</button>
+			<button type="button" data-toggle="dropdown" tabindex="-1" class="btn btn-default dropdown-toggle">
+				<span class="caret"></span><span class="sr-only">ToggleDropdown</span>
+			</button>
+			<ul role="menu" class="dropdown-menu">
+				<li><a href="#">하얀색<image class="image" src="${pageContext.request.contextPath }/drugImages/하양.png"/></a></li>
+				<li><a href="#">노란색<image class="image" src="${pageContext.request.contextPath }/drugImages/노랑.png"/></a></li>
+				<li><a href="#">주황색<image class="image" src="${pageContext.request.contextPath }/drugImages/주황.png"/></a></li>
+				<li><a href="#">분홍색<image class="image" src="${pageContext.request.contextPath }/drugImages/분홍.png"/></a></li>
+				<li><a href="#">빨강색<image class="image" src="${pageContext.request.contextPath }/drugImages/빨강.png"/></a></li>
+				<li><a href="#">갈색<image class="image" src="${pageContext.request.contextPath }/drugImages/갈색.png"/></a></li>
+				<li><a href="#">연두색<image class="image" src="${pageContext.request.contextPath }/drugImages/연두.png"/></a></li>
+				<li><a href="#">초록색<image class="image" src="${pageContext.request.contextPath }/drugImages/초록.png"/></a></li>
+				<li><a href="#">청록색<image class="image" src="${pageContext.request.contextPath }/drugImages/청록.png"/></a></li>
+				<li><a href="#">파랑색<image class="image" src="${pageContext.request.contextPath }/drugImages/파랑.png"/></a></li>
+				<li><a href="#">남색<image class="image" src="${pageContext.request.contextPath }/drugImages/남색.png"/></a></li>
+				<li><a href="#">자주색<image class="image" src="${pageContext.request.contextPath }/drugImages/자주.png"/></a></li>
+				<li><a href="#">보라색<image class="image" src="${pageContext.request.contextPath }/drugImages/보라.png"/></a></li>
+				<li><a href="#">회색<image class="image" src="${pageContext.request.contextPath }/drugImages/회색.png"/></a></li>
+				<li><a href="#">검정색<image class="image" src="${pageContext.request.contextPath }/drugImages/검정.png"/></a></li>
+				<li><a href="#">투명<image class="image" src="${pageContext.request.contextPath }/drugImages/투명.png"/></a></li>
+			</ul>
+		</div>
+		
+		<div class="input-group-btn">
+			<button type="button" tabindex="-1" class="btn btn-default">제형 전체</button>
+			<button type="button" data-toggle="dropdown" tabindex="-1" class="btn btn-default dropdown-toggle">
+				<span class="caret"></span><span class="sr-only">ToggleDropdown</span>
+			</button>
+			<ul role="menu" class="dropdown-menu">
+				<li><a href="#">정제류<image class="image" src="${pageContext.request.contextPath }/drugImages/정제류.png"/></a></li>
+				<li><a href="#">경질캡슐<image class="image" src="${pageContext.request.contextPath }/drugImages/경질캡슐.png"/></a></li>
+				<li><a href="#">연질캡슐<image class="image" src="${pageContext.request.contextPath }/drugImages/연질캡슐.png"/></a></li>
+			</ul>
+		</div>
+		
+		<div class="input-group-btn">
+			<button type="button" tabindex="-1" class="btn btn-default">분할선 전체</button>
+			<button type="button" data-toggle="dropdown" tabindex="-1" class="btn btn-default dropdown-toggle">
+				<span class="caret"></span><span class="sr-only">ToggleDropdown</span>
+			</button>
+			<ul role="menu" class="dropdown-menu">
+				<li><a href="#">없음<image class="image" src="${pageContext.request.contextPath }/drugImages/없음.png"/></a></li>
+				<li><a href="#">(-)형<image class="image" src="${pageContext.request.contextPath }/drugImages/마이너스.png"/></a></li>
+				<li><a href="#">(+)형<image class="image" src="${pageContext.request.contextPath }/drugImages/플러스.png"/></a></li>
+				<li><a href="#">기타<image class="image" src="${pageContext.request.contextPath }/drugImages/기타(분할선).png"/></a></li>
+			</ul>
+		</div>
+		<br>
+		<div class="panel panel-green">
+        	<div class="panel-heading">알약 검색 결과</div>
+			<div class="panel-body">
+				<table class="table table-hover-color">
+					<thead>
+						<tr>
+							<th>품목일련번호</th>
+							<th>제품이미지</th>
+							<th>품목명</th>
+							<th>업체명</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Henry</td>
+							<td>23</td>
+							<td><span class="label label-sm label-success">Approved</span></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>John</td>
+							<td>45</td>
+							<td><span class="label label-sm label-info">Pending</span></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Larry</td>
+							<td>30</td>
+							<td><span class="label label-sm label-warning">Suspended</span></td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Lahm</td>
+							<td>15</td>
+							<td><span class="label label-sm label-danger">Blocked</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

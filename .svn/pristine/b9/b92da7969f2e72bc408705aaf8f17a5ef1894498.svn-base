@@ -1,0 +1,80 @@
+package kr.or.ddit.user.news.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.user.news.dao.INewsDao;
+import kr.or.ddit.user.news.dao.INewsDaoImpl;
+import kr.or.ddit.vo.NewsVO;
+
+public class INewsServiceImpl implements INewsService {
+	
+	private static  INewsService service = new INewsServiceImpl();
+	private INewsDao newsDao;
+	//private IFileItemDao fileItemDao;
+	
+	private INewsServiceImpl(){
+		newsDao = INewsDaoImpl.getInstance();
+		//fileItemDao =IFileItemDaoImpl.getInstance();
+	}
+	
+	public static INewsService getInstance(){
+		return(service == null) ? service = new INewsServiceImpl() : service;
+	}
+	
+	@Override
+	public List<NewsVO> newsList() {
+		List<NewsVO> newsList = null;
+		
+		try {
+			newsList = newsDao.newsList();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return newsList;
+	}
+
+	@Override
+	public NewsVO newsInfo(Map<String, String> params) {
+		NewsVO newsInfo = null;
+		
+		try {
+			newsInfo = newsDao.newsInfo(params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return newsInfo;
+	}
+
+	@Override
+	public void insertNewsInfo(NewsVO newsInfo) {
+		
+		try {
+			newsDao.insertNewsInfo(newsInfo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void updateNewsInfo(NewsVO newsInfo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteNewsInfo(Map<String, String> params) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String totalCount(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

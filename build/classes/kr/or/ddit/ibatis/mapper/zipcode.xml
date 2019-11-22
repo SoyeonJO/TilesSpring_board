@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="zipcode">
+	<typeAlias alias="zipVO" type="kr.or.ddit.vo.ZipVO"/>
+	
+	<sql id="selectAll">
+		SELECT *
+		  FROM ZIPTB
+	</sql>
+	
+	<select id="zipcodeList" parameterClass="string" resultClass="zipVO">
+		SELECT ZIPCODE, SIDO, GUGUN, DONG, NVL(BUNJI, ' ') AS BUNJI
+		  FROM ZIPTB
+		WHERE DONG LIKE '%'||#dong#||'%'
+	</select>	
+</sqlMap>    

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="notice">
+<typeAlias alias="noticeVO" type="kr.or.ddit.vo.NoticeVO"/>
+
+	<resultMap class="noticeVO" id="noticeResultMap">
+	<result property="notice_no" column="notice_no"/>
+	<result property="notice_title" column="notice_title"/>
+	<result property="notice_mem_id" column="notice_mem_id"/>
+	<result property="notice_content" column="notice_content"/>
+	<result property="notice_hit" column="notice_hit"/>
+	<result property="notice_reg_date" column="notice_reg_date"/>
+	<result property="notice_status" column="notice_status"/>
+	<result property="items" column="notice_no" select="noticeitem.noticeItemList"/>
+	</resultMap>
+
+	<sql id="selectAll">
+		SELECT *
+		  FROM NOTICE
+		WHERE NOTICE_STATUS = 'y'  
+	</sql>
+
+	<select id="noticeInfo" parameterClass="map" resultMap="noticeResultMap">
+	<include refid="selectAll"/>
+		AND NOTICE_NO = #notice_no#
+	</select>
+	
+	<sql id="searchCondition">
+		<dynamic prepend="AND">
+			<isNotEmpty property="search_keyword" open="(" close=")">
+				<isEqual property="search_keycode" compareValue="TOTAL">
+					NOTICE_TITLE LIKE '%'||#search_keyword#||'%'
+						OR NOTICE_CONTENT LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="TITLE">
+					NOTICE_TITLE LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+				<isEqual property="search_keycode" compareValue="CONTENT">
+					NOTICE_CONTENT LIKE '%'||#search_keyword#||'%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="noticeList" resultClass="noticeVO" parameterClass="map">
+		<include refid="selectAll"/>
+<!-- 		<include refid="searchCondition"/> -->
+	</select>
+	
+	<update id="updateNOHIT" parameterClass="map">
+		UPDATE NOTICE
+		   SET NOTICE_HIT = NOTICE_HIT + 1
+		 WHERE NOTICE_NO = #notice_no#  
+	</update>
+	
+	<insert id="insertNotice" parameterClass="noticeVO">
+		INSERT INTO NOTICE(NOTICE_NO, NOTICE_MEM_ID, NOTICE_TITLE, NOTICE_CONTENT)
+		VALUES(#notice_no#, #notice_mem_id#, #notice_title#, #notice_content#)
+	</insert>
+	
+	<update id="updateNotice" parameterClass="noticeVO">
+		UPDATE NOTICE
+		   SET NOTICE_TITLE = #notice_title# 
+		      ,NOTICE_CONTENT = #notice_content# 
+		 WHERE NOTICE_NO = #notice_no#     
+	</update>
+	
+	<delete id="deleteNotice" parameterClass="map">
+		UPDATE NOTICE
+		   SET NOTICE_STATUS = 'n'
+		 WHERE NOTICE_NO = #notice_no#
+	</delete>
+	
+	<select id="totalCount" parameterClass="map" resultClass="String">
+		SELECT COUNT(notice_no)
+		  FROM NOTICE
+		 WHERE NOTICE_STATUS = 'y'
+<!-- 		 <include refid="searchCondition"/>  -->
+	</select>
+	
+	</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
